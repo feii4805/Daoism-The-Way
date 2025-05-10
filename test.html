@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>道法自然</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: sans-serif; background-color: #000000; color: #ccc; }
+
+
+    .section {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .fixed-title {
+      position: fixed;
+      top: 35px;
+      left: 35px;
+      font-size: 3.2rem;
+      font-weight: bold;
+      color: white;
+      z-index: 1000;
+    }
+
+    .fixed-subtitle {
+      position: fixed;
+      top: 100px;
+      left: 38px;
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #780000;
+      z-index: 1000;
+    }
+    .intro-flex {
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.intro {
+  background-color: #000000;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh; /* full screen height */
+  margin-top: 100px;
+  margin-bottom: 10vh;
+}
+
+#circle-wrapper, #marco-wrapper {
+  position: relative;
+  will-change: transform;
+  transition: transform 1s ease-out;
+}
+
+#circle, #marco {
+  animation: rotate-animation 50s infinite linear;
+  transform-style: preserve-3d;
+}
+
+
+#circle-wrapper {
+  z-index: 1; /* behind */
+}
+
+#marco-wrapper {
+  z-index: 2; /* in front */
+  position: relative;
+}
+
+#circle {
+  position: relative;
+  width: 380px;
+  height: 380px;
+  border-radius: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: rotate-x 20s infinite linear;
+  transform-style: preserve-3d;
+  margin-top: 100; /* reset if needed */
+}
+
+@keyframes rotate-x {
+  from {
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(360deg);
+  }
+}
+
+#circle span {
+  position: absolute;
+  transform-origin: center;
+  font-size: 1.5rem;
+  backface-visibility: hidden;
+}
+
+
+    .scroller { position: fixed; right: 20px; top: 20px; width: 4px; height: 80vh; background: white; }
+
+    .intro { background-color: #000000; flex-direction: column; }
+
+    #container { position: relative; width: 320px; height: 320px; }
+    #marco {
+      width: 300px; height: 300px; border-radius: 50%;
+      overflow: hidden; box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.3);
+      position: absolute; animation: rotate-animation 20s infinite linear;
+      top: 10px; left: 10px;
+    }
+
+    #fondoyin, #fondoyang { float: left; width: 50%; height: 100%; }
+    #fondoyin { background: #1e1e1e; border-top-left-radius: 150px; border-bottom-left-radius: 150px; }
+    #fondoyang { background: #fff; border-top-right-radius: 150px; border-bottom-right-radius: 150px; }
+
+    #yin, #yang {
+      width: 150px; height: 150px; position: absolute;
+      left: 75px; border-radius: 100px;
+    }
+    #yin { background: #1e1e1e; top: 0; }
+    #yang { background: #ffffff; bottom: 0; }
+
+    #myin, #myang {
+      width: 30px; height: 30px; position: absolute;
+      top: 60px; left: 60px; border-radius: 50%;
+    }
+    #myin { background: #780000; }
+    #myang { background: #fff; }
+
+    #circle {
+      position: relative; width: 380px; height: 380px;
+      border-radius: 100%; display: flex; justify-content: center; align-items: center;
+      animation: rotate-animation 20s infinite linear;
+      margin-top: 6rem;
+      margin-bottom:10vh;
+    }
+
+    #circle span {
+      position: absolute;
+      transform-origin: center;
+      font-size: 1.5rem;
+    }
+
+    @keyframes rotate-animation {
+      from { transform: rotate(0); }
+      to { transform: rotate(-360deg); }
+    }
+
+    .p5-description {
+  color: #ccc;
+  font-size: 0.8rem;
+  margin-top: 3rem;
+  max-width: 800px;
+  margin-left: 2.5rem; /* move it right */
+  text-align: left;   /* optional: align text left */
+  line-height: 1.5;
+}
+
+
+    .description p,
+    .dao-desc p {
+      color: grey;
+      font-size: 1.2rem;
+      line-height: 2;
+      max-width: 800px;
+      margin: 1rem auto;
+      margin-bottom:3vh; 
+      opacity: 0;
+      transition: opacity 1s ease, color 1s ease;
+    }
+    .description p.visible,
+    .dao-desc p.visible {
+      color:#780000;
+      opacity: 1;
+    }
+
+    .typing { white-space: pre-wrap; border-right: 2px solid #780000; animation: blink 5s step-end infinite; }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    .p5-description { color: #ccc; font-size: 1.2 rem; margin-top: 2rem; max-width: 800px; }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(14, 1fr);
+      gap: 5px;
+      padding: 2rem;
+    }
+
+    .chapter-box {
+      background: #333; color: white; text-align: center;
+      padding: 10px; cursor: pointer; transition: all 0.3s;
+    }
+
+    .chapter-box:hover { background: #555; }
+
+    .chapter-expand {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.95); color: white;
+      display: none; justify-content: center; align-items: center;
+      flex-direction: column; padding: 2rem; z-index: 2000; overflow-y: auto;
+    }
+    .chapter-box:hover {
+  background: #555;
+  color: rgb(120, 0, 0); /* new red text color on hover */
+}
+
+    .chapter-expand.active { display: flex; }
+    .chapter-expand .close-btn {
+      position: absolute; top: 20px; right: 30px;
+      font-size: 2rem; cursor: pointer;
+    }
+    .chapter-text { max-width: 800px; white-space: pre-line; margin-top: 1rem; }
+
+    .chapter-expand .prev-btn {
+  left: 20rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  transition: color 0.3s;
+}
+
+.chapter-expand .next-btn {
+  right: 50rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  transition: color 0.3s;
+}
+
+.hover-red:hover {
+  color: rgb(120, 0, 0);
+  transition: color 0.3s ease;
+}
+
+.chapter-text {
+  max-width: 800px;
+  white-space: pre-line;
+  margin-top: 1rem;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.chapter-text:hover {
+  color: rgb(120, 0, 0);
+}
+
+
+
+  </style>
+</head>
+
+<body>
+  <audio id="bgMusic" src="m.mp3" loop></audio>
+
+  <div class="fixed-title">道法自然</div>
+  <div class="fixed-subtitle">THE WAY</div>
+  <div class="scroller"></div>
+<!-- 
+<div class="section intro">
+<div class="intro-flex">
+  <div id="container">
+    <div id="marco-wrapper">
+      <div id="marco">
+       
+      </div>
+    </div>
+    
+      <div id="fondoyin">
+        <div id="yin"><div id="myang"></div></div>
+      </div>
+      <div id="fondoyang">
+        <div id="yang"><div id="myin"></div></div>
+      </div>
+    </div>
+  </div>
+  <div id="circle-wrapper">
+    <div id="circle" data-text="The Dao is the Way that cannot be walked, the name that cannot be named. "></div>
+  </div>
+  
+</div> -->
+<div class="section intro">
+  <div class="intro-flex">
+    
+    <div id="marco-wrapper">
+      <div id="container">
+        <div id="marco">
+          <div id="fondoyin">
+            <div id="yin"><div id="myang"></div></div>
+          </div>
+          <div id="fondoyang">
+            <div id="yang"><div id="myin"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="circle-wrapper">
+      <div id="circle" data-text="The Dao is the Way that cannot be walked, the name that cannot be named. "></div>
+    </div>
+
+  </div>
+</div>
+
+
+  <!-- Section 2: Description -->
+  <div class="section description">
+    <div>
+      <p class="scroll-line">This project is an interactive web experience that explores the ancient Chinese philosophy of Daoism through digital media. Drawing from the Dao De Jing, the foundational text of Daoist thought written by Laozi, the project reinterprets traditional concepts of balance, flow, and non-action (wu wei) using generative visuals and immersive interaction. It invites users to step away from the rush of modern life and into a meditative digital space where simplicity and presence are central.
+      </p>
+      <p class="scroll-line">Built with p5.js, the project blends code with classical wisdom to create a contemporary reflection of Daoist ideas. The generative sketch uses floating particles to represent the flow of energy (qi), which respond to the user’s cursor without resistance—echoing the Daoist principle of wu wei, or effortless action. Surrounding the center are 81 glowing spheres, each symbolizing a chapter from the Dao De Jing. When the user clicks the central Yin-Yang symbol, a line from the text is revealed and spoken aloud. Each interaction reshapes the visual field, offering a new arrangement and another glimpse into the ever-shifting nature of the Dao.
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 3: p5.js Sketch -->
+  <div class="section">
+    <div>
+      <iframe src="https://editor.p5js.org/FeiYY/full/7idUssm4Z"
+              width="900px" height="600px" style="border:none;"></iframe>
+      <div class="p5-description">
+        Move your cursor to the center and click the spinning Yin-Yang symbol to reveal a random line from the Dao De Jing. When clicked, the text will appear in orbit and be read aloud. Click again to generate a new line. Click once more to stop the rotation and the sound. Explore as many times as you like—each moment reveals a different piece of the Way.
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: About Dao De Jing -->
+  <div class="section dao-desc">
+    <div>
+      <p class="scroll-line">The Dao De Jing (or Tao Te Ching) is an ancient Chinese text attributed to the sage Laozi, written around the 6th century BCE. Composed of 81 short chapters, it explores the nature of the Dao—often translated as “the Way”—as well as virtue, leadership, simplicity, and harmony with the natural world. Rather than giving fixed answers, the text uses poetic language and paradoxes to invite readers to reflect deeply and observe life’s patterns.
+      </p>
+      <p class="scroll-line">Laozi, whose name means “Old Master,” is a legendary figure in Chinese history and is considered the founder of philosophical Daoism. His teachings emphasize the value of yielding over force, stillness over striving, and alignment with the natural flow of the universe. Daoism encourages letting go of control, trusting what unfolds, and living with awareness. The Dao De Jing continues to inspire people around the world with its quiet wisdom and timeless insight.
+
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 5: Grid -->
+ 
+
+  <div class="section">
+    <div>
+      <h2 style="color:rgb(120,0,0);font-size:2rem; margin-bottom: 3rem;">Dao De Jing</h2>
+      <p style="color: white; font-size: 1rem; margin-top: -0.5rem; margin-bottom: 2rem;">
+        A collection of 81 poetic chapters offering timeless Daoist wisdom on balance, nature, and the Way.
+      </p>
+      <div class="grid-container" id="chapterGrid"></div>
+    </div>
+  </div>
+  <style>
+
+    
+    /* ... existing styles ... */
+  
+    .chapter-expand .close-btn,
+    .chapter-expand .prev-btn,
+    .chapter-expand .next-btn {
+      position: absolute;
+      font-size: 2rem;
+      cursor: pointer;
+      color: white;
+      transition: color 0.3s;
+    }
+  
+    .chapter-expand .close-btn:hover,
+    .chapter-expand .prev-btn:hover,
+    .chapter-expand .next-btn:hover {
+      color: rgb(120, 0, 0);
+    }
+  
+    .chapter-expand .prev-btn {
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  
+    .chapter-expand .next-btn {
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  </style>
+  
+  <div class="chapter-expand" id="chapterModal">
+    <div class="close-btn" onclick="closeModal()">×</div>
+    <div class="prev-btn" onclick="prevChapter()">←</div>
+    <div class="next-btn" onclick="nextChapter()">→</div>
+    <h2 id="chapterTitle"></h2>
+    <div class="chapter-text" id="chapterContent"></div>
+  </div>
+  
+  <script>
+    let currentChapter = 0;
+  
+    function showModal(index) {
+  currentChapter = index; // 🔥 this line is essential
+  document.getElementById('chapterModal').classList.add('active');
+  document.getElementById('chapterTitle').innerText = `Chapter ${index + 1}`;
+  document.getElementById('chapterContent').innerText = `${chinese[index]}\n\n${english[index]}`;
+}
+
+
+    function closeModal() {
+      document.getElementById('chapterModal').classList.remove('active');
+    }
+  
+    function nextChapter() {
+      if (currentChapter < 80) {
+        showModal(currentChapter + 1);
+      }
+    }
+  
+    function prevChapter() {
+      if (currentChapter > 0) {
+        showModal(currentChapter - 1);
+      }
+    }
+  </script>
+
+  <script>
+    // Scroll reveal
+    const lines = document.querySelectorAll('.scroll-line');
+    window.addEventListener('scroll', () => {
+      lines.forEach(line => {
+        const rect = line.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          line.classList.add('visible');
+        }
+      });
+    });
+
+    // Circular text
+    const degreeToRadian = (angle) => angle * (Math.PI / 180);
+    const radius = 150;
+    const circle = document.querySelector("#circle");
+    const text = circle.dataset.text;
+    const characters = text.split("");
+    const deltaAngle = 360 / characters.length;
+    let currentAngle = -90;
+
+    characters.forEach((char, i) => {
+      const span = document.createElement("span");
+      span.innerText = char;
+      const x = radius * Math.cos(degreeToRadian(currentAngle));
+      const y = radius * Math.sin(degreeToRadian(currentAngle));
+      span.style.transform = `translate(${x + radius}px, ${y + radius}px) rotate(${currentAngle + 90}deg)`;
+      currentAngle += deltaAngle;
+      circle.appendChild(span);
+    });
+
+    // Background music
+    const music = document.getElementById("bgMusic");
+    let musicStarted = false;
+    window.addEventListener("click", () => {
+      if (!musicStarted) {
+        music.play().then(() => musicStarted = true);
+      }
+    });
+
+    // Grid logic
+    let chinese = [], english = [];
+
+    Promise.all([
+      fetch('daodejing.txt').then(res => res.text()),
+      fetch('translation.txt').then(res => res.text())
+    ]).then(([chText, enText]) => {
+      chinese = chText.trim().split('\n');
+      english = enText.trim().split('\n');
+      loadGrid();
+    });
+
+    function loadGrid() {
+      if (chinese.length !== 81 || english.length !== 81) return;
+      const grid = document.getElementById('chapterGrid');
+      for (let i = 0; i < 81; i++) {
+        const box = document.createElement('div');
+        box.className = 'chapter-box';
+        box.innerText = `Chapter ${i + 1}`;
+        box.onclick = () => showModal(i);
+        grid.appendChild(box);
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('chapterModal').classList.remove('active');
+    }
+  </script>
+<script>
+  function applyDirectionalBounce(id) {
+    const el = document.getElementById(id);
+    el.addEventListener("mousemove", (e) => {
+      const rect = el.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = e.clientX - centerX;
+      const dy = e.clientY - centerY;
+      const dist = 150;
+
+      const norm = Math.sqrt(dx * dx + dy * dy) || 1;
+      const moveX = (dx / norm) * dist;
+      const moveY = (dy / norm) * dist;
+
+      el.style.transform = `translate(${moveX}px, ${moveY}px)`;
+
+      clearTimeout(el._bounceReset);
+      el._bounceReset = setTimeout(() => {
+        el.style.transition = "transform 2s ease";
+        el.style.transform = "translate(0, 0)";
+      }, 200);
+    });
+  }
+
+
+  window.addEventListener("DOMContentLoaded", () => {
+  applyDirectionalBounce("circle-wrapper");
+  applyDirectionalBounce("marco-wrapper");
+});
+
+</script>
+
+
+</body>
+</html>
